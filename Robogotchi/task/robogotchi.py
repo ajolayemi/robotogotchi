@@ -111,7 +111,7 @@ class TheRobot:
                   f" Now it is {self.battery_level + 10}.\n"
                   f"{self.robot_name}'s level of boredom was {self.boredom_level}."
                   f" Now it is {self.boredom_level + 5}.\n"
-                  f"{self.robot_name} is recharged!")
+                  f"{self.robot_name} is recharged!\n")
             self.overheat_level -= 5
             self.battery_level += 10
             self.boredom_level += 5
