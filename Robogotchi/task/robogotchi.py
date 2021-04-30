@@ -88,6 +88,16 @@ class TheRobot:
         self.overheat_level = 0
         self.skills_level = 0
         self.boredom_level = 0
+        self.interactions = ['exit', 'info', 'recharge', 'sleep',
+                             'play']
+
+    def available_interactions(self):
+        print(f'Available interaction with {self.robot_name}:\n'
+              f'exit - Exit'
+              f'info - Check the vitals'
+              f'recharge - Recharge'
+              f'sleep - Sleep mode'
+              f'play - Play')
 
     def check_on_robot(self):
         if self.overheat_level == 100:
