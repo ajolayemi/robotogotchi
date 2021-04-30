@@ -89,6 +89,12 @@ class TheRobot:
         self.skills_level = 0
         self.boredom_level = 0
 
+    def check_on_robot(self):
+        if self.overheat_level == 100:
+            print(f'The level of overheat reached 100, {self.robot_name} '
+                  f'has blown up! Game over. Try again?')
+            sys.exit()
+
     def robot_current_stats(self):
         """ Prints the current information about TheRobot
         as well as it's current vitals. """
