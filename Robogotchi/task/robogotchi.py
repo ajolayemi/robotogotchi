@@ -79,6 +79,44 @@ def play_number_game():
             print('A string is not a valid input!')
 
 
+class TheRobot:
+
+    def __init__(self, name: str, what_to_do: str):
+        self.robot_name = name
+        self.what_to_do = what_to_do
+        self.battery_level = 100
+        self.overheat_level = 0
+        self.skills_level = 0
+        self.boredom_level = 0
+
+    def robot_stat_after_play(self):
+        print(f"{self.robot_name}'s level of boredom was {self.boredom_level}."
+              f" Now it is {self.boredom_level - 20}.\n"
+              f"{self.robot_name}'s level of overheat was {self.overheat_level}."
+              f" Now it is {self.overheat_level - 10}")
+
+        self.boredom_level -= 20
+        self.overheat_level -= 10
+
+    @staticmethod
+    def game_decider():
+        available_games = {'Numbers': play_number_game,
+                           'Rock-paper-scissors': play_rock_game}
+        while True:
+            game_choice = input("Which game would you like to play?\n")
+            if game_choice in available_games.keys():
+                available_games.get(game_choice)()
+                sys.exit()
+            else:
+                while True:
+                    if game_choice not in available_games.keys():
+                        game_choice = input('Please choose a valid option: Numbers or Rock-paper-scissors?\n')
+                    else:
+                        available_games.get(game_choice)()
+                        sys.exit()
+
+
+
 def main():
     available_games = {'Numbers': play_number_game,
                        'Rock-paper-scissors': play_rock_game}
