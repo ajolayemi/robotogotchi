@@ -94,6 +94,11 @@ class TheRobot:
               f" Now it is {self.boredom_level - 20}.\n"
               f"{self.robot_name}'s level of overheat was {self.overheat_level}."
               f" Now it is {self.overheat_level - 10}")
+        if self.boredom_level == 0:
+            print(f'{self.robot_name} is in a great mood!')
+
+        else:
+            pass
 
         self.boredom_level -= 20
         self.overheat_level -= 10
