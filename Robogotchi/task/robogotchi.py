@@ -80,30 +80,46 @@ def play_number_game():
 
 
 class TheRobot:
-
-    def __init__(self, name: str, what_to_do: str):
-        self.robot_name = name
-        self.what_to_do = what_to_do
+    def __init__(self):
+        self.robot_name = None
         self.battery = 100
         self.overheat = 0
         self.skills = 0
         self.boredom = 0
-        self.interactions = ['exit', 'info', 'recharge', 'sleep',
-                             'play']
+
+    def game_player(self):
+        switch = {'info': self.robot_current_stats,
+                  'recharge': self.recharge_robot,
+                  'sleep': self.put_to_sleep,
+                  'play': self.game_decider}
+        self.robot_name = input('How will you call your robot?\n')
+        while True:
+            self.available_interactions()
+            choice = input('Choose:\n')
+            print()
+            if choice == 'exit':
+                print('Game over')
+                sys.exit()
+
+            elif choice not in switch.keys():
+                print('Invalid input, try again!\n')
+                continue
+
+            else:
+                switch.get(choice)()
 
     def available_interactions(self):
-        print(f'Available interaction with {self.robot_name}:\n'
-              f'exit - Exit'
-              f'info - Check the vitals'
-              f'recharge - Recharge'
-              f'sleep - Sleep mode'
-              f'play - Play')
+        print(f'Available interactions with {self.robot_name}:\n'
+              f'exit - Exit\n'
+              f'info - Check the vitals\n'
+              f'recharge - Recharge\n'
+              f'sleep - Sleep mode\n'
+              f'play - Play\n')
 
     def check_on_robot(self):
-        if self.overheat == 100:
-            print(f'The level of overheat reached 100, {self.robot_name} '
-                  f'has blown up! Game over. Try again?')
-            sys.exit()
+        print(f'The level of overheat reached 100, {self.robot_name} '
+              f'has blown up! Game over. Try again?')
+        sys.exit()
 
     def robot_current_stats(self):
         """ Prints the current information about TheRobot
@@ -116,20 +132,22 @@ class TheRobot:
 
     def put_to_sleep(self):
         """ Puts robot to sleep. """
+
         if self.overheat == 0:
             print(f'{self.robot_name} is cool!\n')
         else:
+            print(f'{self.robot_name} cooled off!')
             print(f"{self.robot_name}'s level of overheat was {self.overheat}."
                   f" Now it is "
-                  f"{self.overheat - 20 if self.overheat - 20 > 0 else self.overheat - self.overheat}\n")
+                  f"{self.overheat - 20 if self.overheat - 20 > 0 else self.overheat - self.overheat}.\n")
             self.overheat = self.overheat - 20 if self.overheat - 20 > 0 else self.overheat - self.overheat
             if self.overheat == 0:
-                print(f'{self.overheat} is cool!\n')
+                print(f'{self.robot_name} is cool!\n')
 
     def recharge_robot(self):
         """ Recharges TheRobot """
         if self.battery == 100:
-            print(f'{self.robot_name} is charged!')
+            print(f'{self.robot_name} is charged!\n')
         else:
             print(f"{self.robot_name}'s level of overheat was {self.overheat}."
                   f" Now it is {self.overheat - 5 if self.overheat - 5 > 0 else 0}.\n"
@@ -143,55 +161,55 @@ class TheRobot:
             self.boredom = self.boredom + 5 if self.boredom + 5 <= 100 else 100
 
     def robot_stat_after_play(self):
-        print(f"{self.robot_name}'s level of boredom was {self.boredom}."
-              f" Now it is "
-              f"{self.boredom - 20 if self.boredom - 20 >= 0 else self.boredom - self.boredom}."
-              f"\n"
-              f"{self.robot_name}'s level of overheat was {self.overheat}."
-              f" Now it is "
-              f"{self.overheat + 10 if self.overheat + 10 <= 100 else 100 }\n")
-        if self.boredom == 0:
-            print(f'{self.robot_name} is in a great mood!\n')
+        possible_overheat = self.overheat + 10 if self.overheat + 10 <= 100 else 100
+
+        if possible_overheat == 100:
+            self.check_on_robot()
 
         else:
-            pass
+            print(f"{self.robot_name}'s level of boredom was {self.boredom}."
+                  f" Now it is "
+                  f"{self.boredom - 20 if self.boredom - 20 >= 0 else self.boredom - self.boredom}."
+                  f"\n"
+                  f"{self.robot_name}'s level of overheat was {self.overheat}."
+                  f" Now it is "
+                  f"{self.overheat + 10 if self.overheat + 10 <= 100 else 100 }")
+            if self.boredom == 0:
+                print(f'{self.robot_name} is in a great mood!\n')
+
+            else:
+                pass
 
         self.boredom = self.boredom - 20 if self.boredom - 20 >= 0 else self.boredom - self.boredom
         self.overheat = self.overheat + 10 if self.overheat + 10 else 100
 
-    @staticmethod
-    def game_decider():
+    def game_decider(self):
         available_games = {'Numbers': play_number_game,
                            'Rock-paper-scissors': play_rock_game}
         while True:
             game_choice = input("Which game would you like to play?\n")
             if game_choice in available_games.keys():
+                print()
                 available_games.get(game_choice)()
-                sys.exit()
+                self.check_on_robot()
+                self.robot_stat_after_play()
+                break
             else:
                 while True:
                     if game_choice not in available_games.keys():
                         game_choice = input('Please choose a valid option: Numbers or Rock-paper-scissors?\n')
                     else:
+                        print()
                         available_games.get(game_choice)()
-                        sys.exit()
+                        self.check_on_robot()
+                        self.robot_stat_after_play()
+                        break
+                break
 
 
 def main():
-    available_games = {'Numbers': play_number_game,
-                       'Rock-paper-scissors': play_rock_game}
-    while True:
-        game_choice = input("Which game would you like to play?\n")
-        if game_choice in available_games.keys():
-            available_games.get(game_choice)()
-            sys.exit()
-        else:
-            while True:
-                if game_choice not in available_games.keys():
-                    game_choice = input('Please choose a valid option: Numbers or Rock-paper-scissors?\n')
-                else:
-                    available_games.get(game_choice)()
-                    sys.exit()
+    robot_cls = TheRobot()
+    robot_cls.game_player()
 
 
 if __name__ == '__main__':
