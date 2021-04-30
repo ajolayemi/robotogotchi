@@ -89,6 +89,15 @@ class TheRobot:
         self.skills_level = 0
         self.boredom_level = 0
 
+    def robot_current_stats(self):
+        """ Prints the current information about TheRobot
+        as well as it's current vitals. """
+        print(f"{self.robot_name}'s stats are:\n"
+              f"battery is {self.battery_level},\n"
+              f"overheat is {self.overheat_level},\n"
+              f"skill level is {self.skills_level},\n"
+              f"boredom is {self.boredom_level}.\n")
+
     def put_to_sleep(self):
         """ Puts robot to sleep. """
         if self.overheat_level == 0:
