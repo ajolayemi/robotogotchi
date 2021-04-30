@@ -89,6 +89,17 @@ class TheRobot:
         self.skills_level = 0
         self.boredom_level = 0
 
+    def put_to_sleep(self):
+        """ Puts robot to sleep. """
+        if self.overheat_level == 0:
+            print(f'{self.robot_name} is cool!\n')
+        else:
+            print(f"{self.robot_name}'s level of overheat was {self.overheat_level}."
+                  f" Now it is {self.overheat_level - 20}\n")
+            self.overheat_level -= 20
+            if self.overheat_level == 0:
+                print(f'{self.overheat_level} is cool!\n')
+
     def recharge_robot(self):
         """ Recharges TheRobot """
         if self.battery_level == 100:
