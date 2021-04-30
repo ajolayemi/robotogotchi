@@ -120,9 +120,9 @@ class TheRobot:
         print(f"{self.robot_name}'s level of boredom was {self.boredom_level}."
               f" Now it is {self.boredom_level - 20}.\n"
               f"{self.robot_name}'s level of overheat was {self.overheat_level}."
-              f" Now it is {self.overheat_level - 10}")
+              f" Now it is {self.overheat_level - 10}\n")
         if self.boredom_level == 0:
-            print(f'{self.robot_name} is in a great mood!')
+            print(f'{self.robot_name} is in a great mood!\n')
 
         else:
             pass
