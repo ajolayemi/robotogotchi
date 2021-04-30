@@ -89,6 +89,22 @@ class TheRobot:
         self.skills_level = 0
         self.boredom_level = 0
 
+    def recharge_robot(self):
+        """ Recharges TheRobot """
+        if self.battery_level == 100:
+            print(f'{self.robot_name} is charged!')
+        else:
+            print(f"{self.robot_name}'s level of overheat was {self.overheat_level}."
+                  f" Now it is {self.overheat_level - 5}.\n"
+                  f"{self.robot_name}'s level of the battery was {self.battery_level}."
+                  f" Now it is {self.battery_level + 10}.\n"
+                  f"{self.robot_name}'s level of boredom was {self.boredom_level}."
+                  f" Now it is {self.boredom_level + 5}.\n"
+                  f"{self.robot_name} is recharged!")
+            self.overheat_level -= 5
+            self.battery_level += 10
+            self.boredom_level += 5
+
     def robot_stat_after_play(self):
         print(f"{self.robot_name}'s level of boredom was {self.boredom_level}."
               f" Now it is {self.boredom_level - 20}.\n"
@@ -121,7 +137,6 @@ class TheRobot:
                         sys.exit()
 
 
-
 def main():
     available_games = {'Numbers': play_number_game,
                        'Rock-paper-scissors': play_rock_game}
@@ -137,8 +152,6 @@ def main():
                 else:
                     available_games.get(game_choice)()
                     sys.exit()
-
-
 
 
 if __name__ == '__main__':
