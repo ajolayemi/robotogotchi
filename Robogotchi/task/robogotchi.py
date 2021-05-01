@@ -186,10 +186,11 @@ class TheRobot:
                       f"Now it is {new_rust}.\n"
                       f"\n"
                       f"{self.robot_name} did well!")
-                self.overheat = new_overheat
-                self.boredom = new_boredom
-                self.battery = new_battery
                 self.rust = new_rust
+
+            self.overheat = new_overheat
+            self.boredom = new_boredom
+            self.battery = new_battery
 
     def learn(self):
         """ Helps robot acquire new skills. """
@@ -265,20 +266,37 @@ class TheRobot:
 
         if new_overheat == 100:
             self.check_on_robot(overheated=True)
-
         else:
-            print(f"{self.robot_name}'s level of boredom was {self.boredom}."
-                  f" Now it is {new_boredom}.\n"
-                  f"{self.robot_name}'s level of overheat was {self.overheat}."
-                  f" Now it is {new_overheat}")
+            random_mishap = random.choice(list(DANGEROUS_SUBSTANCES.keys()))
+            if random_mishap == 'lucky':
+                print(f"{self.robot_name}'s level of boredom was {self.boredom}."
+                      f" Now it is {new_boredom}.\n"
+                      f"{self.robot_name}'s level of overheat was {self.overheat}."
+                      f" Now it is {new_overheat}")
+            else:
+                if random_mishap == 'puddle':
+                    print(f'Oh no, {self.robot_name} stepped into a puddle!\n\n')
+                elif random_mishap == 'sprinkler':
+                    print(f'Oh, {self.robot_name} encountered a sprinkler!\n\n')
+                else:
+                    print(f'Guess what! {self.robot_name} fell into the pool!\n\n')
+                deducted = DANGEROUS_SUBSTANCES.get(random_mishap)
+                new_rust = self.rust + deducted if self.rust + deducted <= 100 else 100
+                print(f"{self.robot_name}'s level of rust was {self.rust}. "
+                      f"Now it is {new_rust}. \n"
+                      f"{self.robot_name}'s level of boredom was {self.boredom}."
+                      f" Now it is {new_boredom}.\n"
+                      f"{self.robot_name}'s level of overheat was {self.overheat}."
+                      f" Now it is {new_overheat}")
+                self.rust = new_rust
+
             if self.boredom == 0:
                 print(f'{self.robot_name} is in a great mood!\n')
 
             else:
                 pass
-
-        self.boredom = new_boredom
-        self.overheat = new_overheat
+            self.boredom = new_boredom
+            self.overheat = new_overheat
 
     def game_decider(self):
         available_games = {'Numbers': play_number_game,
