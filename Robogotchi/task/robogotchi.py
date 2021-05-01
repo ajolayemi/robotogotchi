@@ -7,6 +7,7 @@ MAX = 1000000
 RULES = {'rock': 'scissors',
          'paper': 'rock',
          'scissors': 'paper'}
+DANGEROUS_SUBSTANCES = ['puddle', 'sprinkler', 'swimming pool']
 
 
 def play_rock_game():
@@ -86,6 +87,7 @@ class TheRobot:
         self.overheat = 0
         self.skills = 0
         self.boredom = 0
+        self.rust = 0
 
     def game_player(self):
         switch = {'info': self.robot_current_stats,
