@@ -118,10 +118,18 @@ class TheRobot:
               f'sleep - Sleep mode\n'
               f'play - Play\n')
 
-    def check_on_robot(self, overheated=False):
+    def check_on_robot(self, overheated=False, rusted=False):
+        """ Checks on robot's vitals among which:
+        1. overheat_level, if the robot is overheated, it informs the user of such
+        and exits the program.
+        2. rust level, if the robot is too rust, it informs user of such and exits
+        the program. """
         if overheated:
             print(f'The level of overheat reached 100, {self.robot_name} '
                   f'has blown up! Game over. Try again?')
+            sys.exit()
+        elif rusted:
+            print(f'{self.robot_name} is too rusty! Game over. Try again?')
             sys.exit()
 
     def robot_current_stats(self):
