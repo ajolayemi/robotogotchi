@@ -145,6 +145,17 @@ class TheRobot:
             print(f'{self.robot_name} is too bored! {self.robot_name} needs '
                   f'to have fun!')
 
+    def oil_robot(self):
+        """ Oil robot decreasing it's level of rust. """
+        new_rust = self.rust - 20 if self.rust - 20 >= 0 else 0
+
+        if self.rust == 0:
+            print(f'{self.robot_name} is fine, no need to oil!')
+        else:
+            print(f"{self.robot_name}'s level of rust was {self.rust}. "
+                  f"Now it is {new_rust}. {self.robot_name} is less rusty!\n")
+        self.rust = new_rust
+
     def work(self):
 
         new_battery = self.battery - 10 if self.battery - 10 > 0 else self.battery - self.battery
