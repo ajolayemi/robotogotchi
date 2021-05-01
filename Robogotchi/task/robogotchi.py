@@ -139,7 +139,8 @@ class TheRobot:
               f"battery is {self.battery},\n"
               f"overheat is {self.overheat},\n"
               f"skill level is {self.skills},\n"
-              f"boredom is {self.boredom}.\n")
+              f"boredom is {self.boredom},\n"
+              f"rust is {self.rust}")
 
     def put_to_sleep(self):
         """ Puts robot to sleep. """
