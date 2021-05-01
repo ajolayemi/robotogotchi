@@ -56,7 +56,7 @@ def play_number_game():
             print()
             print(f"You won: {stats.get('User')},\n"
                   f"The robot won: {stats.get('Robot')}, \n"
-                  f"Draws: {stats.get('Draws')}.")
+                  f"Draws: {stats.get('Draws')}.\n")
             break
 
         if user_num[0] == '-':
@@ -81,7 +81,7 @@ def play_number_game():
                     print("It's a draw!\n")
                     stats['Draws'] += 1
         else:
-            print('A string is not a valid input!')
+            print('A string is not a valid input!\n')
 
 
 class TheRobot:
@@ -104,6 +104,13 @@ class TheRobot:
                   }
         self.robot_name = input('How will you call your robot?\n')
         while True:
+
+            if self.overheat == 100:
+                self.check_on_robot(overheated=True)
+
+            if self.rust == 100:
+                self.check_on_robot(rusted=True)
+
             self.available_interactions()
             choice = input('Choose:\n')
             print()
@@ -115,7 +122,7 @@ class TheRobot:
                 print('Invalid input, try again!\n')
                 continue
 
-            elif self.battery == 0:
+            elif self.battery == 0 and choice != 'recharge':
                 self.check_on_robot(low_battery=True)
 
             elif self.boredom == 100 and choice != 'play':
@@ -154,22 +161,22 @@ class TheRobot:
             sys.exit()
 
         elif low_battery:
-            print(f'The level if battery is 0, {self.robot_name} needs recharging!')
+            print(f'The level of the battery is 0, {self.robot_name} needs recharging!\n')
 
         elif bored:
             print(f'{self.robot_name} is too bored! {self.robot_name} needs '
-                  f'to have fun!')
+                  f'to have fun!\n')
 
     def oil_robot(self):
         """ Oil robot decreasing it's level of rust. """
         new_rust = self.rust - 20 if self.rust - 20 >= 0 else 0
 
         if self.rust == 0:
-            print(f'{self.robot_name} is fine, no need to oil!')
+            print(f'{self.robot_name} is fine, no need to oil!\n')
         else:
             print(f"{self.robot_name}'s level of rust was {self.rust}. "
                   f"Now it is {new_rust}. {self.robot_name} is less rusty!\n")
-        self.rust = new_rust
+            self.rust = new_rust
 
     def work(self):
 
@@ -177,41 +184,38 @@ class TheRobot:
         new_overheat = self.overheat + 10 if self.overheat + 10 <= 100 else 100
         new_boredom = self.boredom + 10 if self.boredom + 10 <= 100 else 100
         if self.skills < 50:
-            print(f'{self.robot_name} has got to learn before working!')
+            print(f'{self.robot_name} has got to learn before working!\n')
         else:
             random_mishap = random.choice(list(DANGEROUS_SUBSTANCES.keys()))
             if random_mishap == 'lucky':
-                print(f"{self.robot_name}'s level of boredom was {self.boredom}. "
-                      f"Now it is {new_boredom}.\n"
-                      f"{self.robot_name}'s level of overheat was {self.overheat}. "
+                print(f"{self.robot_name}'s level of overheat was {self.overheat}. "
                       f"Now it is {new_overheat}.\n"
-                      f"{self.robot_name}'s level of battery was {self.battery}. "
+                      f"{self.robot_name}'s level of boredom was {self.boredom}. "
+                      f"Now it is {new_boredom}.\n"
+                      f"{self.robot_name}'s level of the battery was {self.battery}. "
                       f"Now it is {new_battery}. \n"
                       f"\n"
-                      f"{self.robot_name} did well!")
-                self.overheat = new_overheat
-                self.boredom = new_boredom
-                self.battery = new_battery
+                      f"{self.robot_name} did well!\n")
             else:
                 deducted = DANGEROUS_SUBSTANCES.get(random_mishap)
                 new_rust = self.rust + deducted if self.rust + deducted <= 100 else 100
                 if random_mishap == 'puddle':
-                    print(f'Oh no, {self.robot_name} stepped into a puddle!\n\n')
+                    print(f'Oh no, {self.robot_name} stepped into a puddle!\n')
                 elif random_mishap == 'sprinkler':
-                    print(f'Oh, {self.robot_name} encountered a sprinkler!\n\n')
+                    print(f'Oh, {self.robot_name} encountered a sprinkler!\n')
                 else:
-                    print(f'Guess what! {self.robot_name} fell into the pool!\n\n')
+                    print(f'Guess what! {self.robot_name} fell into the pool!\n')
 
-                print(f"{self.robot_name}'s level of boredom was {self.boredom}. "
-                      f"Now it is {new_boredom}.\n"
-                      f"{self.robot_name}'s level of overheat was {self.overheat}. "
+                print(f"{self.robot_name}'s level of overheat was {self.overheat}. "
                       f"Now it is {new_overheat}.\n"
-                      f"{self.robot_name}'s level of battery was {self.battery}. "
+                      f"{self.robot_name}'s level of boredom was {self.boredom}. "
+                      f"Now it is {new_boredom}.\n"
+                      f"{self.robot_name}'s level of the battery was {self.battery}. "
                       f"Now it is {new_battery}. \n"
                       f"{self.robot_name}'s level of rust was {self.rust}. "
                       f"Now it is {new_rust}.\n"
                       f"\n"
-                      f"{self.robot_name} did well!")
+                      f"{self.robot_name} did well!\n")
                 self.rust = new_rust
 
             self.overheat = new_overheat
@@ -232,10 +236,10 @@ class TheRobot:
                   f"Now it is {new_skills}.\n"
                   f"{self.robot_name}'s level of overheat was {self.overheat}. "
                   f"Now it is {new_overheat}.\n"
-                  f"{self.robot_name}'s level of battery was {self.battery}. "
+                  f"{self.robot_name}'s level of the battery was {self.battery}. "
                   f"Now it is {new_battery}.\n"
                   f"{self.robot_name}'s level of boredom was {self.boredom}. "
-                  f"Now it is {new_boredom}.\n"
+                  f"Now it is {new_boredom}.\n\n"
                   f"{self.robot_name} has become smarter!\n")
             self.skills = new_skills
             self.battery = new_battery
@@ -250,7 +254,7 @@ class TheRobot:
               f"overheat is {self.overheat},\n"
               f"skill level is {self.skills},\n"
               f"boredom is {self.boredom},\n"
-              f"rust is {self.rust}")
+              f"rust is {self.rust}.\n")
 
     def put_to_sleep(self):
         """ Puts robot to sleep. """
@@ -259,10 +263,10 @@ class TheRobot:
         if self.overheat == 0:
             print(f'{self.robot_name} is cool!\n')
         else:
-            print(f'{self.robot_name} cooled off!')
             print(f"{self.robot_name}'s level of overheat was {self.overheat}."
                   f" Now it is "
                   f"{new_overheat}.\n")
+            print(f'{self.robot_name} cooled off!')
             self.overheat = new_overheat
             if self.overheat == 0:
                 print(f'{self.robot_name} is cool!\n')
@@ -298,14 +302,14 @@ class TheRobot:
                 print(f"{self.robot_name}'s level of boredom was {self.boredom}."
                       f" Now it is {new_boredom}.\n"
                       f"{self.robot_name}'s level of overheat was {self.overheat}."
-                      f" Now it is {new_overheat}")
+                      f" Now it is {new_overheat}.\n")
             else:
                 if random_mishap == 'puddle':
-                    print(f'Oh no, {self.robot_name} stepped into a puddle!\n\n')
+                    print(f'Oh no, {self.robot_name} stepped into a puddle!\n')
                 elif random_mishap == 'sprinkler':
-                    print(f'Oh, {self.robot_name} encountered a sprinkler!\n\n')
+                    print(f'Oh, {self.robot_name} encountered a sprinkler!\n')
                 else:
-                    print(f'Guess what! {self.robot_name} fell into the pool!\n\n')
+                    print(f'Guess what! {self.robot_name} fell into the pool!\n')
                 deducted = DANGEROUS_SUBSTANCES.get(random_mishap)
                 new_rust = self.rust + deducted if self.rust + deducted <= 100 else 100
                 print(f"{self.robot_name}'s level of rust was {self.rust}. "
@@ -313,35 +317,35 @@ class TheRobot:
                       f"{self.robot_name}'s level of boredom was {self.boredom}."
                       f" Now it is {new_boredom}.\n"
                       f"{self.robot_name}'s level of overheat was {self.overheat}."
-                      f" Now it is {new_overheat}")
+                      f" Now it is {new_overheat}.\n")
                 self.rust = new_rust
-
-            if self.boredom == 0:
-                print(f'{self.robot_name} is in a great mood!\n')
-
-            else:
-                pass
             self.boredom = new_boredom
             self.overheat = new_overheat
+
+        if new_boredom == 0:
+            print(f'{self.robot_name} is in a great mood!\n')
+
+        else:
+            pass
 
     def game_decider(self):
         available_games = {'Numbers': play_number_game,
                            'Rock-paper-scissors': play_rock_game}
         while True:
             game_choice = input("Which game would you like to play?\n")
-            if game_choice in available_games.keys():
+            if game_choice.capitalize() in available_games.keys():
                 print()
-                available_games.get(game_choice)()
+                available_games.get(game_choice.capitalize())()
                 self.check_on_robot()
                 self.robot_stat_after_play()
                 break
             else:
                 while True:
-                    if game_choice not in available_games.keys():
+                    if game_choice.capitalize() not in available_games.keys():
                         game_choice = input('Please choose a valid option: Numbers or Rock-paper-scissors?\n')
                     else:
                         print()
-                        available_games.get(game_choice)()
+                        available_games.get(game_choice.capitalize())()
                         self.check_on_robot()
                         self.robot_stat_after_play()
                         break
