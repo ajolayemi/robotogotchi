@@ -97,7 +97,11 @@ class TheRobot:
         switch = {'info': self.robot_current_stats,
                   'recharge': self.recharge_robot,
                   'sleep': self.put_to_sleep,
-                  'play': self.game_decider}
+                  'play': self.game_decider,
+                  'oil': self.oil_robot,
+                  'learn': self.learn,
+                  'work': self.work,
+                  }
         self.robot_name = input('How will you call your robot?\n')
         while True:
             self.available_interactions()
@@ -111,6 +115,12 @@ class TheRobot:
                 print('Invalid input, try again!\n')
                 continue
 
+            elif self.battery == 0:
+                self.check_on_robot(low_battery=True)
+
+            elif self.boredom == 100 and choice != 'play':
+                self.check_on_robot(bored=True)
+
             else:
                 switch.get(choice)()
 
@@ -118,17 +128,22 @@ class TheRobot:
         print(f'Available interactions with {self.robot_name}:\n'
               f'exit - Exit\n'
               f'info - Check the vitals\n'
+              f'work - Work\n'
+              f'play - Play\n'
+              f'oil - Oil\n'
               f'recharge - Recharge\n'
               f'sleep - Sleep mode\n'
-              f'play - Play\n')
+              f'learn - Learn skills\n')
 
     def check_on_robot(self, overheated=False, rusted=False, low_battery=False,
                        bored=False):
-        """ Checks on robot's vitals among which:
+        """ Checks on robot's vitals among which:\n
         1. overheat_level, if the robot is overheated, it informs the user of such
-        and exits the program.
+        and exits the program.\n
         2. rust level, if the robot is too rust, it informs user of such and exits
-        the program. """
+        the program.\n
+        3. battery level, checks to see that robots battery level <= 0 \n
+        4. boredom level, keeps track of robots boredom level"""
         if overheated:
             print(f'The level of overheat reached 100, {self.robot_name} '
                   f'has blown up! Game over. Try again?')
