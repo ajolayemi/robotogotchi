@@ -141,6 +141,31 @@ class TheRobot:
             print(f'{self.robot_name} is too bored! {self.robot_name} needs '
                   f'to have fun!')
 
+    def learn(self):
+        """ Helps robot acquire new skills. """
+        new_skills = self.skills + 10 if self.skills + 10 <= 100 else 100
+        new_battery = self.battery - 10 if self.battery - 10 >= 0 else self.battery - self.battery
+        new_overheat = self.overheat + 10 if self.overheat + 10 <= 100 else 100
+        new_boredom = self.boredom + 5 if self.boredom + 5 <= 100 else 100
+
+        if self.skills == 100:
+            print(f"There's nothing for {self.robot_name} to learn!")
+        else:
+            print(f"{self.robot_name}'s level of skill was {self.skills}. "
+                  f"Now it is {new_skills}.\n"
+                  f"{self.robot_name}'s level of overheat was {self.overheat}. "
+                  f"Now it is {new_overheat}.\n"
+                  f"{self.robot_name}'s level of battery was {self.battery}. "
+                  f"Now it is {new_battery}.\n"
+                  f"{self.robot_name}'s level of boredom was {self.boredom}. "
+                  f"Now it is {new_boredom}.\n"
+                  f"{self.robot_name} has become smarter!\n")
+            self.skills = new_skills
+            self.battery = new_battery
+            self.overheat = new_overheat
+            self.boredom = new_boredom
+
+
     def robot_current_stats(self):
         """ Prints the current information about TheRobot
         as well as it's current vitals. """
