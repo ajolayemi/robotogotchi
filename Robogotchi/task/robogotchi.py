@@ -7,7 +7,11 @@ MAX = 1000000
 RULES = {'rock': 'scissors',
          'paper': 'rock',
          'scissors': 'paper'}
-DANGEROUS_SUBSTANCES = ['puddle', 'sprinkler', 'swimming pool']
+
+DANGEROUS_SUBSTANCES = {'puddle': 10,
+                        'sprinkler': 30,
+                        'swimming pool': 50,
+                        'lucky': 0}
 
 
 def play_rock_game():
@@ -141,6 +145,52 @@ class TheRobot:
             print(f'{self.robot_name} is too bored! {self.robot_name} needs '
                   f'to have fun!')
 
+    def work(self):
+
+        new_battery = self.battery - 10 if self.battery - 10 > 0 else self.battery - self.battery
+        new_overheat = self.overheat + 10 if self.overheat + 10 <= 100 else 100
+        new_boredom = self.boredom + 10 if self.boredom + 10 <= 100 else 100
+        if self.skills < 50:
+            print(f'{self.robot_name} has got to learn before working!')
+        else:
+            random_mishap = random.choice(list(DANGEROUS_SUBSTANCES.keys()))
+            if random_mishap == 'lucky':
+                print(f"{self.robot_name}'s level of boredom was {self.boredom}. "
+                      f"Now it is {new_boredom}.\n"
+                      f"{self.robot_name}'s level of overheat was {self.overheat}. "
+                      f"Now it is {new_overheat}.\n"
+                      f"{self.robot_name}'s level of battery was {self.battery}. "
+                      f"Now it is {new_battery}. \n"
+                      f"\n"
+                      f"{self.robot_name} did well!")
+                self.overheat = new_overheat
+                self.boredom = new_boredom
+                self.battery = new_battery
+            else:
+                deducted = DANGEROUS_SUBSTANCES.get(random_mishap)
+                new_rust = self.rust + deducted if self.rust + deducted <= 100 else 100
+                if random_mishap == 'puddle':
+                    print(f'Oh no, {self.robot_name} stepped into a puddle!\n\n')
+                elif random_mishap == 'sprinkler':
+                    print(f'Oh, {self.robot_name} encountered a sprinkler!\n\n')
+                else:
+                    print(f'Guess what! {self.robot_name} fell into the pool!\n\n')
+
+                print(f"{self.robot_name}'s level of boredom was {self.boredom}. "
+                      f"Now it is {new_boredom}.\n"
+                      f"{self.robot_name}'s level of overheat was {self.overheat}. "
+                      f"Now it is {new_overheat}.\n"
+                      f"{self.robot_name}'s level of battery was {self.battery}. "
+                      f"Now it is {new_battery}. \n"
+                      f"{self.robot_name}'s level of rust was {self.rust}. "
+                      f"Now it is {new_rust}.\n"
+                      f"\n"
+                      f"{self.robot_name} did well!")
+                self.overheat = new_overheat
+                self.boredom = new_boredom
+                self.battery = new_battery
+                self.rust = new_rust
+
     def learn(self):
         """ Helps robot acquire new skills. """
         new_skills = self.skills + 10 if self.skills + 10 <= 100 else 100
@@ -164,7 +214,6 @@ class TheRobot:
             self.battery = new_battery
             self.overheat = new_overheat
             self.boredom = new_boredom
-
 
     def robot_current_stats(self):
         """ Prints the current information about TheRobot
