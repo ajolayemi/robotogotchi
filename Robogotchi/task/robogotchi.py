@@ -116,10 +116,11 @@ class TheRobot:
               f'sleep - Sleep mode\n'
               f'play - Play\n')
 
-    def check_on_robot(self):
-        print(f'The level of overheat reached 100, {self.robot_name} '
-              f'has blown up! Game over. Try again?')
-        sys.exit()
+    def check_on_robot(self, overheated=False):
+        if overheated:
+            print(f'The level of overheat reached 100, {self.robot_name} '
+                  f'has blown up! Game over. Try again?')
+            sys.exit()
 
     def robot_current_stats(self):
         """ Prints the current information about TheRobot
@@ -132,6 +133,7 @@ class TheRobot:
 
     def put_to_sleep(self):
         """ Puts robot to sleep. """
+        new_overheat = self.overheat - 20 if self.overheat - 20 > 0 else self.overheat - self.overheat
 
         if self.overheat == 0:
             print(f'{self.robot_name} is cool!\n')
@@ -139,49 +141,50 @@ class TheRobot:
             print(f'{self.robot_name} cooled off!')
             print(f"{self.robot_name}'s level of overheat was {self.overheat}."
                   f" Now it is "
-                  f"{self.overheat - 20 if self.overheat - 20 > 0 else self.overheat - self.overheat}.\n")
-            self.overheat = self.overheat - 20 if self.overheat - 20 > 0 else self.overheat - self.overheat
+                  f"{new_overheat}.\n")
+            self.overheat = new_overheat
             if self.overheat == 0:
                 print(f'{self.robot_name} is cool!\n')
 
     def recharge_robot(self):
         """ Recharges TheRobot """
+        new_overheat = self.overheat - 5 if self.overheat - 5 > 0 else 0
+        new_battery = self.battery + 10 if self.battery + 10 <= 100 else 100
+        new_boredom = self.boredom + 5 if self.boredom + 5 <= 100 else 100
         if self.battery == 100:
             print(f'{self.robot_name} is charged!\n')
         else:
             print(f"{self.robot_name}'s level of overheat was {self.overheat}."
-                  f" Now it is {self.overheat - 5 if self.overheat - 5 > 0 else 0}.\n"
+                  f" Now it is {new_overheat}.\n"
                   f"{self.robot_name}'s level of the battery was {self.battery}."
-                  f" Now it is {self.battery + 10 if self.battery + 10 <= 100 else 100}.\n"
+                  f" Now it is {new_battery}.\n"
                   f"{self.robot_name}'s level of boredom was {self.boredom}."
-                  f" Now it is {self.boredom + 5 if self.boredom + 5 <= 100 else 100}.\n"
+                  f" Now it is {new_boredom}.\n"
                   f"{self.robot_name} is recharged!\n")
-            self.overheat = self.overheat - 5 if self.overheat - 5 > 0 else 0
-            self.battery = self.battery + 10 if self.battery + 10 <= 100 else 100
-            self.boredom = self.boredom + 5 if self.boredom + 5 <= 100 else 100
+            self.overheat = new_overheat
+            self.battery = new_battery
+            self.boredom = new_boredom
 
     def robot_stat_after_play(self):
-        possible_overheat = self.overheat + 10 if self.overheat + 10 <= 100 else 100
+        new_overheat = self.overheat + 10 if self.overheat + 10 <= 100 else 100
+        new_boredom = self.boredom - 20 if self.boredom - 20 >= 0 else self.boredom - self.boredom
 
-        if possible_overheat == 100:
-            self.check_on_robot()
+        if new_overheat == 100:
+            self.check_on_robot(overheated=True)
 
         else:
             print(f"{self.robot_name}'s level of boredom was {self.boredom}."
-                  f" Now it is "
-                  f"{self.boredom - 20 if self.boredom - 20 >= 0 else self.boredom - self.boredom}."
-                  f"\n"
+                  f" Now it is {new_boredom}.\n"
                   f"{self.robot_name}'s level of overheat was {self.overheat}."
-                  f" Now it is "
-                  f"{self.overheat + 10 if self.overheat + 10 <= 100 else 100 }")
+                  f" Now it is {new_overheat}")
             if self.boredom == 0:
                 print(f'{self.robot_name} is in a great mood!\n')
 
             else:
                 pass
 
-        self.boredom = self.boredom - 20 if self.boredom - 20 >= 0 else self.boredom - self.boredom
-        self.overheat = self.overheat + 10 if self.overheat + 10 else 100
+        self.boredom = new_boredom
+        self.overheat = new_overheat
 
     def game_decider(self):
         available_games = {'Numbers': play_number_game,
